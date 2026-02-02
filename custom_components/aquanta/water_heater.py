@@ -115,29 +115,32 @@ class AquantaWaterHeater(AquantaEntity, WaterHeaterEntity):
         if target_temperature is None:
             return
 
-        # 1. Build the URL
+        # 1. Get the Client & Headers
+        api_client = self.coordinator.aquanta
+
+        # We check for the session under common names (_session or session)
+        headers = None
+        if hasattr(api_client, "_session") and hasattr(api_client._session, "headers"):
+            headers = api_client._session.headers
+        elif hasattr(api_client, "session") and hasattr(api_client.session, "headers"):
+            headers = api_client.session.headers
+        
+        if not headers:
+            LOGGER.error("Could not find auth headers in aquanta client. Client dir: %s", dir(api_client))
+            return
+
+        # 3. Send the Command
         url = f"https://portal.aquanta.io/api/v1/devices/{self.aquanta_id}/setpoint"
-
-        # 2. Get the auth headers from the existing connection
-        # The coordinator usually holds the 'api' object or 'device' session
-        # We try to grab the headers from the device session directly
-        try:
-            headers = self._device._session.headers
-        except AttributeError:
-            # Fallback if _device isn't directly accessible, try coordinator
-            headers = self.coordinator.api._session.headers
-
-        # 3. Send the command manually
+        
         async with aiohttp.ClientSession() as session:
             payload = {"temperature": target_temperature}
             async with session.post(url, json=payload, headers=headers) as response:
                 if response.status == 200:
-                    # Update local data so the UI slider doesn't bounce back
+                    # Success! Update local state immediately.
                     self.coordinator.data["devices"][self.aquanta_id]["advanced"]["setPoint"] = target_temperature
                     self.async_write_ha_state()
                     
-                    # Force a refresh from the cloud
+                    # Force a refresh to sync everything up
                     await self.coordinator.async_request_refresh()
                 else:
-                    # Log error if it fails
-                    LOGGER.error("Failed to set Aquanta temperature: %s", await response.text())
+                    LOGGER.error("Failed to set temperature: %s", await response.text())
