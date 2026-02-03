@@ -1,8 +1,8 @@
 {
   "domain": "aquanta",
-  "name": "Aquanta",
+  "name": "Aquanta-willbe",
   "codeowners": [
-    "@bmcclure"
+    "@willbewipeout"
   ],
   "config_flow": true,
   "dependencies": [],
@@ -11,11 +11,11 @@
       "hostname": "aquanta-*"
     }
   ],
-  "documentation": "https://github.com/bmcclure/ha-aquanta",
+  "documentation": "https://github.com/willbewipeout/ha-aquanta-test",
   "iot_class": "cloud_polling",
-  "issue_tracker": "https://github.com/bmcclure/ha-aquanta/issues",
+  "issue_tracker": "https://github.com/willbewipeout/ha-aquanta-test",
   "requirements": [
     "aquanta==0.2"
   ],
-  "version": "2.0.2"
+  "version": "2.1"
 }
