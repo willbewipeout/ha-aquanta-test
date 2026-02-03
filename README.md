@@ -1,7 +1,9 @@
-# TEST Aquanta Water Heater Controller for Home Assistant
+# Aquanta Water Heater Controller for Home Assistant with Temp Control
 
 
-Component to integrate with [Aquanta Smart Water Heater Controllers][aquanta] through their undocumented cloud API.
+Component to integrate with [Aquanta Smart Water Heater Controllers][aquanta] through their undocumented cloud API.  Most of the work is from this repo (https://github.com/VolantisDev/ha-aquanta).
+
+This is my first vibe coding work, so mistakes are bound to be included.
 
 **This component will set up the following platforms.**
 
