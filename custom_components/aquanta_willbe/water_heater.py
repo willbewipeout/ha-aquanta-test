@@ -11,8 +11,8 @@ import json
 # Fill in your Aquanta Portal login details below.
 # The script will use these to automatically generate a fresh cookie when needed.
 # ==============================================================================
-AQUANTA_EMAIL = "Email"
-AQUANTA_PASSWORD = "Password"
+AQUANTA_EMAIL = "email"
+AQUANTA_PASSWORD = "password"
 AQUANTA_API_KEY = "API Key" 
 # ==============================================================================
 
@@ -30,6 +30,8 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     UnitOfTemperature,
     ATTR_TEMPERATURE,
+    CONF_USERNAME,
+    CONF_PASSWORD, 
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -141,6 +143,11 @@ class AquantaWaterHeater(AquantaEntity, WaterHeaterEntity):
     async def _async_get_fresh_cookie(self):
         """Async method to perform login flow using aiohttp."""
         global CACHED_PORTAL_COOKIE
+
+        # DYNAMICALLY GET CREDENTIALS HERE
+        email = self.coordinator.config_entry.data.get(CONF_USERNAME)
+        password = self.coordinator.config_entry.data.get(CONF_PASSWORD)
+
         LOGGER.info("Aquanta: Attempting to refresh session cookie via Async Login...")
 
         try:
@@ -149,8 +156,8 @@ class AquantaWaterHeater(AquantaEntity, WaterHeaterEntity):
             # Step 1: Google Identity Toolkit Login
             google_url = f"https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key={AQUANTA_API_KEY}"
             google_payload = {
-                "email": AQUANTA_EMAIL,
-                "password": AQUANTA_PASSWORD,
+                "email": email,
+                "password": password,
                 "returnSecureToken": True
             }
 
