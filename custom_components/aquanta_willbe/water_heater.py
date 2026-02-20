@@ -11,8 +11,6 @@ import json
 # Fill in your Aquanta Portal login details below.
 # The script will use these to automatically generate a fresh cookie when needed.
 # ==============================================================================
-AQUANTA_EMAIL = "email"
-AQUANTA_PASSWORD = "password"
 AQUANTA_API_KEY = "API Key" 
 # ==============================================================================
 
@@ -215,11 +213,6 @@ class AquantaWaterHeater(AquantaEntity, WaterHeaterEntity):
         try:
             if not self._api:
                 LOGGER.error("Aquanta: API client missing.")
-                return
-
-            # Check Configuration
-            if "YOUR_EMAIL" in AQUANTA_EMAIL:
-                LOGGER.error("Aquanta Config Error: Please edit water_heater.py and fill in AQUANTA_EMAIL and AQUANTA_PASSWORD.")
                 return
 
             clean_temp = int(round(target_temp))
