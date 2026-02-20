@@ -7,9 +7,11 @@ import asyncio
 import json
 
 # ==============================================================================
-# PERMANENT LOGIN CONFIGURATION
-# Fill in your Aquanta Portal login details below.
-# The script will use these to automatically generate a fresh cookie when needed.
+# PERMANENT LOGIN WITH API CONFIGURATION
+# Go to https://portal.aquanta.io/public/_assets/js/viewmodels/common.js
+# Open that link in a new tab.
+# Use Ctrl+F (Find) and search for: apiKey or AIza.
+# Copy the full string and paste below
 # ==============================================================================
 AQUANTA_API_KEY = "API Key" 
 # ==============================================================================
